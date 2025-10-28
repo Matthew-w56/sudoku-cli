@@ -163,11 +163,6 @@ class Game:
         elif key.lower() == 'h' and not self.show_help:
             self._give_hint()
 
-        # Solve
-        elif key.lower() == 's':
-            if self._confirm_solve():
-                self._solve_puzzle()
-
         # New game
         elif key.lower() == 'n':
             if self._confirm_new_game():
@@ -220,25 +215,6 @@ class Game:
             self._show_temp_message(f"Hint: Try {value} at row {row+1}, col {col+1}")
         else:
             self._show_temp_message("No hints available!", is_error=True)
-
-    def _solve_puzzle(self):
-        """Automatically solve the puzzle."""
-        solution = Solver.get_solution(self.game_state.board)
-
-        if solution:
-            # Fill in the solution
-            for row in range(9):
-                for col in range(9):
-                    if not self.game_state.board.is_given(row, col):
-                        self.game_state.board.grid[row][col] = solution.grid[row][col]
-
-            self._show_temp_message("Puzzle solved!")
-        else:
-            self._show_temp_message("Could not solve puzzle!", is_error=True)
-
-    def _confirm_solve(self) -> bool:
-        """Ask user to confirm auto-solve."""
-        return self._ask_yes_no("Solve puzzle? (y/n): ")
 
     def _confirm_new_game(self) -> bool:
         """Ask user to confirm new game."""

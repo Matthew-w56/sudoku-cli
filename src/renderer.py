@@ -212,7 +212,7 @@ class Renderer:
         controls = [
             "Controls:",
             "  Arrows: Navigate  |  1-9: Fill cell  |  0/Backspace: Clear",
-            "  h: Hint  |  s: Solve  |  n: New game  |  u: Undo  |  ?: Help  |  q: Quit"
+            "  h: Hint  |  n: New game  |  u: Undo  |  ?: Help  |  q: Quit"
         ]
 
         for i, line in enumerate(controls):
@@ -285,7 +285,6 @@ class Renderer:
             "║                                            ║",
             "║  ACTIONS:                                  ║",
             "║    h ..................... Get a hint      ║",
-            "║    s ..................... Solve puzzle    ║",
             "║    u ..................... Undo move       ║",
             "║    n ..................... New game        ║",
             "║    ? ..................... Toggle help     ║",
