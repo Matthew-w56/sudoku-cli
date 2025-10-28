@@ -221,8 +221,23 @@ class Game:
         return self._ask_yes_no("Start new game? Current progress will be lost. (y/n): ")
 
     def _ask_load_saved_game(self) -> bool:
-        """Ask user if they want to load saved game."""
-        return self._ask_yes_no("Continue saved game? (y/n): ")
+        """Ask user if they want to load saved game using a menu."""
+        selected = 0  # 0 = Continue, 1 = New Game
+
+        while True:
+            self.renderer.render_saved_game_menu(selected)
+
+            key = self.term.inkey()
+
+            if key.name == 'KEY_UP':
+                selected = (selected - 1) % 2
+            elif key.name == 'KEY_DOWN':
+                selected = (selected + 1) % 2
+            elif key.name == 'KEY_ENTER' or key == '\n' or key == '\r':
+                return selected == 0  # True if "Continue", False if "New Game"
+            elif key.lower() == 'q':
+                self.running = False
+                return False
 
     def _ask_yes_no(self, prompt: str) -> bool:
         """Display a yes/no prompt and return the result."""

@@ -353,6 +353,49 @@ class Renderer:
                 else:
                     print(msg)
 
+    def render_saved_game_menu(self, selected: int):
+        """Render the saved game menu."""
+        self.clear()
+
+        options = ["Continue Saved Game", "Start New Game"]
+        descriptions = [
+            "Resume from where you left off",
+            "Begin a fresh puzzle"
+        ]
+
+        title = "SAVED GAME FOUND"
+        subtitle = "Use arrow keys to select, Enter to confirm"
+
+        messages = [
+            "",
+            title,
+            subtitle,
+            "",
+            ""
+        ]
+
+        for i, option in enumerate(options):
+            if i == selected:
+                messages.append(f"  ▶ {option} - {descriptions[i]}  ")
+            else:
+                messages.append(f"    {option} - {descriptions[i]}  ")
+
+        messages.append("")
+        messages.append("Press 'q' to quit")
+
+        start_row = (self.term.height - len(messages)) // 2
+
+        for i, msg in enumerate(messages):
+            col = (self.term.width - len(msg)) // 2
+
+            with self.term.location(col, start_row + i):
+                if msg == title:
+                    print(self.COLOR_TITLE(msg))
+                elif "▶" in msg:
+                    print(self.COLOR_HIGHLIGHT(msg))
+                else:
+                    print(msg)
+
     def render_loading(self, message: str = "Generating puzzle..."):
         """Render a loading screen."""
         self.clear()
