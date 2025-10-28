@@ -46,38 +46,6 @@ A feature-rich, terminal-based Sudoku game built with Python and the blessed lib
      Difficulty: MEDIUM  |  Time: 05:23  |  Moves: 42
 ```
 
-## Installation
-
-### Requirements
-
-- Python 3.7 or higher
-- Terminal with color support (recommended min size: 50x30)
-
-### Setup
-
-1. Clone or download this repository:
-   ```bash
-   cd sudoku-cli
-   ```
-
-2. Create and activate a virtual environment (recommended):
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Run the game:
-   ```bash
-   python sudoku.py
-   # or
-   ./sudoku.py  # if you made it executable
-   ```
-
 ## How to Play
 
 ### Objective
@@ -174,18 +142,10 @@ sudoku-cli/
 
 ## Development
 
-### Running Tests
+### Running
 
-```bash
-# Activate virtual environment
-source venv/bin/activate
-
-# Run all tests
-python -m unittest discover tests/ -v
-
-# Run specific test file
-python -m unittest tests/test_board.py -v
-```
+./venv/bin/python -m unittest discover tests/ -v
+./venv/bin/python ./sudoku.py
 
 ### Test Coverage
 
@@ -227,17 +187,6 @@ Make sure your terminal supports ANSI colors. Most modern terminals do.
 ### Puzzle generation is slow
 
 This is normal for harder difficulties. The algorithm ensures unique solutions. You can modify `generator.py` to use `generate_simple()` for faster (but potentially non-unique) puzzles.
-
-### Game won't start
-
-Make sure you've installed the requirements:
-```bash
-pip install -r requirements.txt
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
 
 ## License
 

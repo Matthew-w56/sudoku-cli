@@ -16,7 +16,7 @@ class Difficulty:
 
     # Number of cells to remove for each difficulty
     REMOVE_COUNT = {
-        EASY: (40, 45),      # Remove 40-45 cells
+        EASY: (36, 41),      # Remove 36-41 cells (easier)
         MEDIUM: (46, 49),    # Remove 46-49 cells
         HARD: (50, 53),      # Remove 50-53 cells
         EXPERT: (54, 58),    # Remove 54-58 cells

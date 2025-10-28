@@ -315,10 +315,10 @@ class Renderer:
 
         difficulties = ["Easy", "Medium", "Hard", "Expert"]
         descriptions = [
-            "Perfect for beginners (40-45 cells removed)",
-            "Moderate challenge (46-49 cells removed)",
-            "For experienced players (50-53 cells removed)",
-            "Ultimate challenge (54-58 cells removed)"
+            "Perfect for beginners",
+            "Moderate challenge",
+            "For experienced players",
+            "Ultimate challenge"
         ]
 
         title = "SELECT DIFFICULTY"
@@ -334,9 +334,9 @@ class Renderer:
 
         for i, diff in enumerate(difficulties):
             if i == selected:
-                messages.append(f"  ▶ {diff} - {descriptions[i]}")
+                messages.append(f"  ▶ {diff} - {descriptions[i]}  ")
             else:
-                messages.append(f"    {diff} - {descriptions[i]}")
+                messages.append(f"    {diff} - {descriptions[i]}  ")
 
         messages.append("")
         messages.append("Press 'q' to quit")
