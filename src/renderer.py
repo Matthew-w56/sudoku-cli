@@ -241,7 +241,7 @@ class Renderer:
             "",
             "╔═══════════════════════════════════╗",
             "║                                   ║",
-            "║     🎉  CONGRATULATIONS!  🎉      ║",
+            "║    🎉  CONGRATULATIONS!  🎉      ║",
             "║                                   ║",
             "║      You solved the puzzle!       ║",
             "║                                   ║",
@@ -259,8 +259,9 @@ class Renderer:
         for i, msg in enumerate(messages):
             col = (self.term.width - len(msg)) // 2
             with self.term.location(col, start_row + i):
-                if "CONGRATULATIONS" in msg or "🎉" in msg:
-                    print(self.COLOR_TITLE(msg))
+                if "CONGRATULATIONS" in msg:
+                    # Only color the CONGRATULATIONS text, not the borders
+                    print("║    " + self.COLOR_TITLE("🎉  CONGRATULATIONS!  🎉") + "      ║")
                 else:
                     print(msg)
 

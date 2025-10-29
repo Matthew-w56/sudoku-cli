@@ -20,6 +20,9 @@ class Game:
         self.game_state: GameState = None
         self.running = True
         self.show_help = False
+        self.test_win_mode = False  # For testing the win screen
+        self.temp_message = None  # Current temporary message
+        self.temp_message_expiry = 0  # When to clear the message
 
     def run(self):
         """Main game loop."""
@@ -62,8 +65,10 @@ class Game:
             self.renderer.render_help_screen()
             return
 
-        # Check for win condition
-        if self.game_state.is_complete():
+        # Check for win condition (or test mode)
+        if self.test_win_mode or self.game_state.is_complete():
+            # Pause the timer when the game is won
+            self.game_state.pause()
             self.renderer.render_win_screen(
                 self.game_state.get_time_string(),
                 self.game_state.move_count
@@ -93,6 +98,16 @@ class Game:
         )
         self.renderer.render_controls()
 
+        # Handle temporary messages
+        if self.temp_message:
+            if time.time() < self.temp_message_expiry:
+                # Message still active, show it
+                message, is_error = self.temp_message
+                self.renderer.render_message(message, is_error=is_error)
+            else:
+                # Message expired, clear it
+                self.temp_message = None
+
     def _handle_input(self):
         """Handle user input."""
         key = self.term.inkey(timeout=0.016)
@@ -101,7 +116,7 @@ class Game:
             return
 
         # Help screen toggle
-        if key == '?' or key.lower() == 'h':
+        if key == '?':
             if not self.show_help:
                 self.game_state.pause()
             else:
@@ -115,7 +130,7 @@ class Game:
             self.game_state.resume()
             return
 
-        # If game is complete, only allow new game or quit
+        # If game is complete, only allow new game, quit, or toggle test mode
         if self.game_state.is_complete():
             if key.lower() == 'n':
                 difficulty = self._select_difficulty()
@@ -124,6 +139,9 @@ class Game:
             elif key.lower() == 'q':
                 GameState.delete_save_file()
                 self.running = False
+            elif key.lower() == 's':
+                # Allow toggling test mode even when actually complete
+                self.test_win_mode = not self.test_win_mode
             return
 
         # Navigation
@@ -163,6 +181,10 @@ class Game:
         elif key.lower() == 'h' and not self.show_help:
             self._give_hint()
 
+        # Test win screen (for development/testing)
+        elif key.lower() == 's':
+            self.test_win_mode = not self.test_win_mode
+
         # New game
         elif key.lower() == 'n':
             if self._confirm_new_game():
@@ -182,6 +204,7 @@ class Game:
         board = Generator.generate(difficulty)
         self.game_state = GameState(board, difficulty)
         self.show_help = False
+        self.test_win_mode = False  # Reset test mode
 
         # Delete old save file
         GameState.delete_save_file()
@@ -252,8 +275,8 @@ class Game:
 
     def _show_temp_message(self, message: str, is_error: bool = False, duration: float = 2.0):
         """Show a temporary message that disappears after duration seconds."""
-        self.renderer.render_message(message, is_error=is_error)
-        time.sleep(duration)
+        self.temp_message = (message, is_error)
+        self.temp_message_expiry = time.time() + duration
 
     def check_terminal_size(self) -> bool:
         """Check if terminal is large enough. Returns True if OK."""
